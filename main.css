@@ -1,0 +1,62 @@
+body{
+  background-color: #2f374a;
+  font-family: 'Lato';
+  font-weight: 100;
+  color: #fff;
+}
+
+svg{
+  margin: 0 auto;
+}
+
+.graticule {
+  fill: none;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.land {
+  fill: #ddd;
+}
+
+.border {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.bubble {
+  stroke: #fff;
+  fill: #780000;
+}
+
+.boundary {
+  fill: none;
+  stroke: #91a5ab;
+  stroke-width: .5px;
+}
+
+
+
+h2{
+  text-align: center;
+  font-weight: normal;
+}
+
+#year{
+  position: absolute;
+  width: 100%;
+  font-size: 100px;
+  top: 38vh;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.container{
+  top:0;
+  margin: 0 auto;
+  width: 100%;
+  position: absolute;
+  padding-top: 20px;
+}
