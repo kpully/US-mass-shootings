@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.land {
+  fill: #ddd;
+}
+
+.border {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.bubble {
+  /stroke: #780000;
+  stroke: #fff;
+  fill: #780000;
+}
+
+h2 {
+  color:white;
+   text-align: center;
+
+}
+
+h4 {
+  color:white;
+   text-align: center;
+}
+
+body {
+    background-color: #736f6e;
+    text-align: center;
+}
+
+  .label {
+      font-weight: bold;
+      text-anchor: middle;
+      cursor:default;
+    }
+
+</style>
+<body>
+<div class="container" style="line-height:0.2em">
+<h2>Mass Shootings in the US, 1966 - 2015</h2>
+<h4 id="year">Place cursor over bubble to see the details of each incident</h4>
+</div>
+
+ <section class="main-content">
+    <h2> </h2>
+    <div id="chart"></div>
+  </section>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var width = 960,
+    height = 600;
+
+var path = d3.geo.path()
+    .projection(null);
+
+var radius = d3.scale.sqrt()
+  .domain([0, 40])
+  .range([0, 15]);
+
+var svg = d3.select("#chart").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "map");
+
+
+d3.json("us.json", function(error, us) {
+   if (error) return console.error(error);
+
+  svg.append("path")
+      .datum(topojson.feature(us, us.objects.nation))
+      .attr("class", "land")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+      .attr("class", "border border--state")
+      .attr("d", path);
+
+  svg.append("g")
+    .attr("class", "bubble")
+  .selectAll("circle")
+    .data(topojson.feature(us, us.objects.counties).features)
+  .enter().append("circle")
+    .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
+    .attr("r", function(d) {return radius(d.properties.victims); })
+  .append("title")
+    .text(function(d) {
+      return d.properties.name + ", " + d.properties.year + ". Victims: " + d.properties.victims;
+    });
+  
+var map = svg.selectAll("path")
+    .datum(topojson.feature(us, us.objects.nation))
+    .enter()
+    //.append("title")
+      //.text("test")
+    //.append("path")
+      //.attr("d", path)
+      //.style("stroke", "black")
+      //.style("stroke-width", 0.5)
+        //.on("mouseover", mouseover)
+        //.on("mousemove", mousemove)
+       // .on("mouseout", mouseout);
+      //.append("title")
+      //.text(function(d) { 
+        //return d;
+      //});
+
+
+});
+
+</script>
